@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Player {
     private String nome;
     private boolean mao;
-    private ArrayList cartas = new ArrayList();
+    public ArrayList cartas = new ArrayList();
 
     public String getNome() {
         return nome;
@@ -30,14 +30,6 @@ public class Player {
 
     public void setMao(boolean mao) {
         this.mao = mao;
-    }
-
-    public ArrayList getCartas() {
-        return cartas;
-    }
-
-    public void setCartas(ArrayList cartas) {
-        this.cartas = cartas;
     }
 
     @Override
