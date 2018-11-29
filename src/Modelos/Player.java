@@ -14,8 +14,13 @@ import java.util.ArrayList;
 public class Player {
     private String nome;
     private boolean mao;
-    public ArrayList cartas = new ArrayList();
+    private ArrayList cartas = new ArrayList();
 
+    public Player(String nome){
+        this.nome = nome;
+        this.mao = false;
+    }
+    
     public String getNome() {
         return nome;
     }
@@ -30,6 +35,14 @@ public class Player {
 
     public void setMao(boolean mao) {
         this.mao = mao;
+    }
+
+    public ArrayList getCartas() {
+        return cartas;
+    }
+
+    public void setCartas(ArrayList cartas) {
+        this.cartas = cartas;
     }
 
     @Override
