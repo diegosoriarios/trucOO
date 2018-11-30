@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Player {
     private String nome;
     private boolean mao;
-    private ArrayList cartas = new ArrayList();
+    public ArrayList cartas = new ArrayList();
 
     public Player(String nome){
         this.nome = nome;

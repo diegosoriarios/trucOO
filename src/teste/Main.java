@@ -107,20 +107,29 @@ public class Main{
                     if(enviado == "Quero"){
                         int envP1 = calculaEnvido(player1.cartas);
                         int envP2 = calculaEnvido(player2.cartas);
-                        /*falta implementar 
-                        ganhaEnvido(envP1, envP2);                                            
-                        */
+                        int g = venceChamada(player1.isMao(), envP1, envP2);
+                        int pontos = verificaPontos("Envido");
+                        if(g == 1){
+                            //atribui pontos para player1
+                        }else{
+                            //atribui pontos pra player2
+                        }
                     }else{
                         if(envido == "Real Envido"){
                             String resposta_envido = (String) JOptionPane.showOptionDialog(null, "Aceita o Real Envido?", player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, confirmacao, confirmacao[0]);
                             if(resposta_envido == "Sim"){
                                 int envP1 = calculaEnvido(player1.cartas);
                                 int envP2 = calculaEnvido(player2.cartas);
-                                /*falta implementar 
-                                ganhaEnvido(envP1, envP2);                                            
-                                */
+                                int g = venceChamada(player1.isMao(), envP1, envP2);
+                                int pontos = verificaPontos("RealEnvido");
+                                if(g == 1){
+                                    //atribui pontos para player1
+                                }else{
+                                    //atribui pontos pra player2
+                                }
                             }else{
-                                //dar ponto
+                                int pontos = verificaPontos("Envido");
+                                //player2 recebe um ponto;
                             }
                         }else{
                             if(envido == "Falta Envido"){
@@ -128,17 +137,22 @@ public class Main{
                                 if(resposta_envido == "Sim"){
                                     int envP1 = calculaEnvido(player1.cartas);
                                     int envP2 = calculaEnvido(player2.cartas);
-                                    /*falta implementar 
-                                    ganhaEnvido(envP1, envP2);                                            
-                                    */
+                                    int g = venceChamada(player1.isMao(), envP1, envP2);
+                                    int pontos = verificaPontos("FaltaEnvido");
+                                    if(g == 1){
+                                        //atribui para o player1
+                                    }else{
+                                        //atribui para o player2
+                                    }
                                 }else{
-                                    //dar ponto
+                                    int pontos = verificaPontos("Envido");
+                                    //player2 recebe um ponto;
                                 }
                             }else{
-                                //dar ponto pelo não
+                                int pontos = verificaPontos("Nao");
+                                //player1 recebe um ponto;
                             }    
                         }
-                        //chamar a função que da um ponto pra o player
                         //E DEPOIS RETIRAR ENVIDO A LISTA DE GRITOS... MAS NÃO SEI COMO FAZER ISSO
                     }
                     break;
@@ -146,26 +160,40 @@ public class Main{
                 String[] florOpt = {"É bom...", "Contra Flor", "Flor ao Resto"};
                 String flor = (String) JOptionPane.showOptionDialog(null, "FLOR", player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, florOpt, florOpt[0]);
                     if(flor == "É bom..."){
-                        //função pra dar pontos pra o jogador
-                        //E DEPOIS RETIRAR FLOR A LISTA DE GRITOS... MAS NÃO SEI COMO FAZER ISSO
+                        verificaPontos("Flor");
+                        //atribuir pontos para player1
                     }else{
                         if(flor == "Contra Flor"){
                             String resposta_flor = (String) JOptionPane.showOptionDialog(null, "Aceita a Falta Envido?", player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, confirmacao, confirmacao[0]);
                             if(resposta_flor == "Sim"){
                                 int florP1 = calculaFlor(player1.cartas);
-                                int florP2 = calculaFlor(player1.cartas);
-                                /*falta implementar 
-                                    ganhaFlor(envP1, envP2);                                
-                                */
+                                int florP2 = calculaFlor(player2.cartas);
+                                int g = venceChamada(player1.isMao(), florP1, florP2);
+                                int pontos = verificaPontos("ContraFlor");
+                                if(g == 1){
+                                    //atribuir pontos player1
+                                }else{
+                                    //atribuir pontos player2
+                                }
                             }else{
-                                //dar ponto
+                                verificaPontos("Flor");
+                                //atribuir pontos para player2
                             }
                         }else{
-                            int florP1 = calculaFlor(player1.cartas);
-                            int florP2 = calculaFlor(player1.cartas);
-                            /*falta implementar 
-                                ganhaFlor(envP1, envP2);
-                            */
+                            String resposta_flor = (String) JOptionPane.showOptionDialog(null, "Aceita a Falta Envido?", player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, confirmacao, confirmacao[0]);
+                            if(resposta_flor == "Sim"){
+                                int florP1 = calculaFlor(player1.cartas);
+                                int florP2 = calculaFlor(player2.cartas);
+                                int g = venceChamada(player1.isMao(), florP1, florP2);
+                                int pontos = verificaPontos("FlorEoResto");
+                                if(g == 1){
+                                    //atribuir pontos player1
+                                }else{
+                                    //atribuir pontos player2
+                                }
+                            }else{
+                                verificarPontos("Flor");
+                                //atribuir pontos para o player2
                             }
                         }
                         //E DEPOIS RETIRAR FLOR A LISTA DE GRITOS... MAS NÃO SEI COMO FAZER ISSO
@@ -173,6 +201,59 @@ public class Main{
                     
                     break;
                 case "Truco":
+                String[] trucoOpt = {"Quero", "Não quero", "Retruco"};
+                String truco = (String) JOptionPane.showOptionDialog(null, "Aceita o Truco?", player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, trucoOpt, trucoOpt[0]);
+                if(truco == "Quero"){
+                    int trP1 = calculaForca(player1.cartas);
+                    int trP2 = calculaForca(player2.cartas);
+                    int g = venceChamada(player1.isMao(), envP1, envP2);
+                    int pontos = verificaPontos("Truco");
+                    if(g == 1){
+                        //atribui pontos para player1
+                    }else{
+                        verificarPontos("Não");
+                        //atribui pontos pra player2
+                    }
+                }else{
+                    if(truco == "Retruco"){
+                        String[] retrucoOpt = {"Quero", "Não quero", "ValeQuatro"};
+                        String retruco = (String) JOptionPane.showOptionDialog(null, "Aceita o Retruco?", player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, retrucoOpt, retrucoOpt[0]);
+                        if(retruco == "Quero"){
+                            int retrP1 = calculaForca(player1.cartas);
+                            int retrP2 = calculaForca(player2.cartas);
+                            int g = venceChamada(player1.isMao(), envP1, envP2);
+                            int pontos = verificaPontos("Retruco");
+                            if(g == 1){
+                                //atribui pontos para player1
+                            }else{
+                                verificarPontos("Truco");
+                                //atribui pontos pra player2
+                            }
+                        }else{
+                            if(retruco == "ValeQuatro"){
+                                String valeq = (String) JOptionPane.showOptionDialog(null, "Aceita o Vale Quatro?", player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, confirmacao, confirmacao[0]);
+                                if(valeq == "Sim"){
+                                    int vqP1 = calculaForca(player1.cartas);
+                                    int vqP2 = calculaForca(player2.cartas);
+                                    int g = venceChamada(player1.isMao(), envP1, envP2);
+                                    int pontos = verificaPontos("ValeQuatro");
+                                    if(g == 1){
+                                        //atribui pontos para player1
+                                    }else{
+                                        verificarPontos("Retruco");
+                                        //atribui pontos pra player2
+                                    }
+                                }else{
+                                    verificaPontos("Retruco");
+                                }
+                            }else{
+                                //atribui pontos para o player 2
+                            }
+                        }
+                    }else{
+                        //atribui pontos para o player 1
+                    }
+                }
                 
             }
         }else{
