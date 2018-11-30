@@ -1,7 +1,5 @@
 package Modelos;
 
-import Modelos.Basto;
-
 public class Partida {
     private int turno;
 
@@ -142,6 +140,6 @@ public class Partida {
     }
     
     public void adicionaPontos(Player player, int pontos){
-        //player.addPontos(pontos);
+        player.setPontos(pontos);
     }
 }
