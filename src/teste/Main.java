@@ -55,7 +55,7 @@ public class Main{
             if(player1.isMao()){
                 //começa o loop do Envido/Flor pra voltar a escolher o que fazer 
                 //for(int x = 0; i < 3; i++)
-                if(j == 1){
+                if(j != 0){
                     gritos[0] = "";
                     gritos[1] = "";
                 } 
@@ -178,9 +178,15 @@ public class Main{
                         chamaTruco(p, player1, player2);
                         break;
                     case 3:
-                            Cartas jc1 = jogarCartas(player1);
+                            Cartas jc1;
+                            Cartas jc2;
+                            do{
+                                jc1 = jogarCartas(player1);
+                            }while(jc1 == null);
                             j--;
-                            Cartas jc2 = jogarCartas(player2);
+                            do{
+                                jc2 = jogarCartas(player2);
+                            }while(jc2 == null);
                             if(p.venceChamada(player1.isMao(), jc1.getForca(), jc2.getForca()) == 1){
                                 System.out.println(jc1.getNumero() + " ganhou");
                             }else{
@@ -271,7 +277,7 @@ public class Main{
                     return f1;
                 }else{
                     JOptionPane.showMessageDialog(null, "Escolha uma opção valida!!");
-                    jogarCartas(player);
+                    return null;
                 }
             case 1:
                 if(player.listaCarta[1] != null){
@@ -280,7 +286,7 @@ public class Main{
                     return f2;
                 }else{
                     JOptionPane.showMessageDialog(null, "Escolha uma opção valida!!");
-                    jogarCartas(player);
+                    return null;
                 }
             case 2:
                 if(player.listaCarta[2] != null){
@@ -289,7 +295,7 @@ public class Main{
                     return f3;
                 }else{
                     JOptionPane.showMessageDialog(null, "Escolha uma opção valida!!");
-                    jogarCartas(player);
+                    return null;
                 }
         }
         return null;
