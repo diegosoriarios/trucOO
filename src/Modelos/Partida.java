@@ -11,90 +11,53 @@ public class Partida {
         this.turno = turno;
     }
     
-    public int calculaEnvido(Cartas[] c) {
+    public int calculaEnvido(Cartas[] c) { // retorna os pontos de Envido
         int envido=0;
-        if (c[0].getNaipe().equals(c[1].getNaipe())){
-            if (c[0].getNumero() >= 10){
-                envido += 10;
-            }else{
+        if (isEnvido(c[0], c[1])){
+            envido+=20;
+            if (c[0].getNumero() < 10){
                 envido += c[0].getNumero();
             }
-            if (c[1].getNumero() >= 10){
-                envido += 10;
-            }else{
+            if (c[1].getNumero() < 10){
                 envido += c[1].getNumero();
             }
-            return envido;
-        }
-        else if (c[1].getNaipe().equals(c[2].getNaipe())){
-            if (c[1].getNumero() >= 10){
-                envido += 10;
-            }else{
-                envido += c[1].getNumero();
-            }
-            if (c[2].getNumero() >= 10){
-                envido += 10;
-            }else{
-                envido += c[2].getNumero();
-            }
-            return envido;
-        }
-        else if (c[0].getNaipe().equals(c[2].getNaipe())) {
-            if (c[0].getNumero() >= 10){
-                envido += 10;
-            }else{
+        }else if (isEnvido(c[1], c[2])){
+            if (c[0].getNumero() < 10){
                 envido += c[0].getNumero();
             }
-            if (c[2].getNumero() >= 10){
-                envido += 10;
-            }else{
-                envido += c[2].getNumero();
+            if (c[1].getNumero() < 10){
+                envido += c[1].getNumero();
             }
         }else{
-            if (c[0].getNumero() < 10 && c[0].getNumero() >= c[1].getNumero()){
-                if (c[0].getNumero() >= c[2].getNumero()){
-                    envido += c[0].getNumero();
-                }
-            }else if (c[1].getNumero() < 10 && c[1].getNumero() >= c[0].getNumero()){
-                if (c[1].getNumero() >= c[2].getNumero()){
-                    envido += c[1].getNumero();
-                }
-            }else if (c[2].getNumero() < 10 && c[2].getNumero() >= c[0].getNumero()){
-                if (c[2].getNumero() >= c[1].getNumero()){
-                    envido += c[2].getNumero();
-                }
-            }else{
-                envido += 10;
-            }
+            envido += (c[0].getNumero() > c[1].getNumero()) ? c[0].getNumero() : c[1].getNumero();
+            envido += (c[2].getNumero() > envido) ? c[2].getNumero() : 0;
         }
         return envido;
     }
     
-    public int calculaFlor(Cartas[] c){
-        int flor=0;
-        if (c[0].getNaipe().equals(c[1].getNaipe()) && c[1].getNaipe().equals(c[2].getNaipe())){
-            if (c[0].getNumero() >= 10){
-                flor += 10;
-            }else{
-                flor += c[0].getNumero();
-            }
-            if (c[1].getNumero() >= 10){
-                flor += 10;
-            }else{
-                flor += c[1].getNumero();
-            }
-            if (c[2].getNumero() >= 10){
-                flor += 10;
-            }else{
-                flor += c[2].getNumero();
-            }
-        }else{
-            return calculaEnvido(c);
+    public int calculaFlor(Cartas[] c){ // retorna os pontos de flor
+        int flor=20;
+        if (c[0].getNumero() < 10){
+            flor += c[0].getNumero();
+        }
+        if (c[1].getNumero() < 10){
+            flor += c[1].getNumero();
+        }
+        if (c[2].getNumero() < 10){
+            flor += c[2].getNumero();
         }
         return flor;
     }
     
-    public int venceChamada(boolean player1Mao, int pontosP1, int pontosP2){
+    public boolean isFlor(Cartas[] c){ // retorna true se tiver Flor
+        return (c[0].getNaipe().equals(c[1].getNaipe()) && c[1].getNaipe().equals(c[2].getNaipe()));
+    }
+    
+    public boolean isEnvido(Cartas c1, Cartas c2){ // retorna true se tiver Envido
+        return (c1.getNaipe().equals(c2.getNaipe()));
+    }
+    
+    public int venceChamada(boolean player1Mao, int pontosP1, int pontosP2){ // retorna vencedor: 1 - player1 | 2 - player2
         if(pontosP1 > pontosP2){
             return 1;
         }else{
@@ -110,7 +73,7 @@ public class Partida {
         }
     }
     
-    public int verificaPontos(String chamada){
+    public int verificaPontos(String chamada){ // retorna quantos pontos ganhou conforme o que foi chamado
         int pontos=0;
         switch (chamada) {
             case "Nao":
