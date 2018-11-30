@@ -41,6 +41,9 @@ public class Main{
             }
         }while(!(jogador1.isMao() || jogador2.isMao()));
 
+
+       //Começa o loop do novo jogo 
+
         Object[] gritos = {"Envido", "Flor", "Truco", "Soltar Carta"};
         
         darCartas(player1, player2);
@@ -49,7 +52,9 @@ public class Main{
         String cartasPlayer2 = player2.listaCarta[0].toString() + player2.listaCarta[1].toString() + player2.listaCarta[2].toString();
 
         if(player1.isMao()){
-            //String escolha = (String) JOptionPane.showInputDialog(null, "Escolha a jogada", player1.getNome(), JOptionPane.PLAIN_MESSAGE, null, gritos, "Escolha");
+            //começa o loop do Envido/Flor pra voltar a escolher o que fazer 
+            //for(int x = 0; i < 3; i++)
+            //if(x == 1) gritos[0] = ""; gritos[1] = ""
             int escolha = JOptionPane.showOptionDialog(null, cartasPlayer1 , player1.getNome(), JOptionPane.WARNING_MESSAGE, 0, null, gritos, gritos[0]);
             switch(escolha){
                 case 0:
@@ -105,7 +110,6 @@ public class Main{
                                 //player1 recebe um ponto;
                             }    
                         }
-                        //E DEPOIS RETIRAR ENVIDO A LISTA DE GRITOS... MAS NÃO SEI COMO FAZER ISSO
                     }
                     break;
                 case 1:
@@ -148,14 +152,16 @@ public class Main{
                                 //atribuir pontos para o player2
                             }
                         }
-                        //E DEPOIS RETIRAR FLOR A LISTA DE GRITOS... MAS NÃO SEI COMO FAZER ISSO
                     }
                     
                     break;
                 case 2:
-                    //chamatruco;
-                    
-                
+                    chamaTruco(p, player1, player2);
+                    break;
+                case 3:
+                        Carta jc1 = jogarCartas(player1);
+                        Carta jc2 = jogarCartas(player2);
+                    break;
             }
         }else{
             
