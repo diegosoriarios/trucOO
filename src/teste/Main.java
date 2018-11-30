@@ -3,12 +3,15 @@ package teste;
 import javax.swing.JOptionPane;
 
 import Modelos.Basto;
+import Modelos.Cartas;
+import Modelos.Copas;
+import Modelos.Espada;
+import Modelos.Ouro;
 import Modelos.Player;
+import Modelos.Partida;
 
 import java.util.Random;
 import java.util.function.ObjIntConsumer;
-
-import Partida;
 
 public class Main{
     public static void main(String[] args){
@@ -22,7 +25,7 @@ public class Main{
         do{
             String o = (String) JOptionPane.showInputDialog(null, "Escola o mão", "Truco", JOptionPane.PLAIN_MESSAGE, null, players, jogador1.getNome());
             switch(o) {
-                case jogador1.getNome():
+                case jogador1.getNome();
                     jogador1.setMao(true);
                     break;
                 case jogador2.getNome():
@@ -42,10 +45,10 @@ public class Main{
                     player1.cartas.add(basto);
                     break;
                 case 2:
-                    Copas copas = new Copas();
-                    copas.setNumero(numeroCarta);
-                    copas.atribuiForca(numeroCarta);
-                    player1.cartas.add(copas);
+                    Copas copa = new Copas();
+                    copa.setNumero(numeroCarta);
+                    copa.atribuiForca(numeroCarta);
+                    player1.cartas.add(copa);
                     break;
                 case 3:
                     Espada espada = new Espada();
@@ -73,10 +76,10 @@ public class Main{
                     player2.cartas.add(basto);
                     break;
                 case 2:
-                    Copas copas = new Copas();
-                    copas.setNumero(numeroCarta);
-                    copas.atribuiForca(numeroCarta);
-                    player2.cartas.add(copas);
+                    Copas copa = new Copas();
+                    copa.setNumero(numeroCarta);
+                    copa.atribuiForca(numeroCarta);
+                    player2.cartas.add(copa);
                     break;
                 case 3:
                     Espada espada = new Espada();
