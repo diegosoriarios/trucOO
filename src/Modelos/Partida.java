@@ -10,6 +10,18 @@ public class Partida {
     public void setTurno(int turno) {
         this.turno = turno;
     }
+
+    public int calculaForca(Cartas player1, Cartas player2){
+        if(player1.getForca() > player2.getForca()){
+            return 1; //1 ganhou
+        }else{
+            if(player2.getForca() > player1.getForca()){
+                return 2;//2 ganhou
+            }else{
+                return 0;//empate
+            }
+        }
+    }
     
     public int calculaEnvido(Cartas[] c) {
         int envido=0;
