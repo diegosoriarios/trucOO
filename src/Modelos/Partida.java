@@ -24,9 +24,8 @@ public class Partida {
     }
     
     public int calculaEnvido(Cartas[] c) { // retorna os pontos de Envido
-        int envido=0;
+        int envido=20;
         if (isEnvido(c[0], c[1])){
-            envido+=20;
             if (c[0].getNumero() < 10){
                 envido += c[0].getNumero();
             }
@@ -41,8 +40,8 @@ public class Partida {
                 envido += c[1].getNumero();
             }
         }else{
-            envido += (c[0].getNumero() > c[1].getNumero()) ? c[0].getNumero() : c[1].getNumero();
-            envido += (c[2].getNumero() > envido) ? c[2].getNumero() : 0;
+            envido = (c[0].getNumero() > c[1].getNumero()) ? c[0].getNumero() : c[1].getNumero();
+            envido = (c[2].getNumero() > envido) ? c[2].getNumero() : 0;
         }
         return envido;
     }
