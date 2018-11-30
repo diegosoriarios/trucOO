@@ -1,20 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Modelos;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
-/**
- *
- * @author diego
- */
 public class Player {
     private String nome;
     private boolean mao;
-    public ArrayList cartas = new ArrayList();
     public Cartas[] listaCarta = new Cartas[3];
 
     public Player(String nome){
@@ -38,20 +28,12 @@ public class Player {
         this.mao = mao;
     }
 
-    public ArrayList getCartas() {
-        return cartas;
-    }
-
-    public void setCartas(ArrayList cartas) {
-        this.cartas = cartas;
-    }
-
     @Override
     public String toString() {
         String aux = "";
         aux += "Nome: " + nome;
         aux += mao ? ", É mão" : "Não é mão";
-        aux += ", Cartas: " + cartas;
+        aux += ", Cartas: " + Arrays.toString(listaCarta);
         return aux;
     }
     
