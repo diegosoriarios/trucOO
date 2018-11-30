@@ -40,7 +40,7 @@ public class Espada extends Cartas{
     @Override
     public String toString() {
         String aux = "";
-        aux += "Carta: " + numero + " ♠";
+        aux += "Carta: " + numero + " ♠\n";
         return aux;
     }
     

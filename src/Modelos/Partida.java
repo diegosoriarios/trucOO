@@ -159,6 +159,6 @@ public class Partida {
     }
     
     public void adicionaPontos(Player player, int pontos){
-        player.addPontos(pontos);
+        //player.addPontos(pontos);
     }
 }

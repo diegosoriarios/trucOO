@@ -18,27 +18,39 @@ public class Main{
     public static void main(String[] args){
         Object[] confirmacao = {"Sim", "Não"};
         Partida p = new Partida();
-        Player player1 = new Player("Paulo");
-        Player player2 = new Player("Diego");
+        Player jogador1 = new Player("Paulo");
+        Player jogador2 = new Player("Diego");
+        Player player1 = null;
+        Player player2 = null;
         
-        Object[] players = {player1.getNome(), player2.getNome()};
+        Object[] players = {jogador1.getNome(), jogador2.getNome()};
         do{
-            String o = (String) JOptionPane.showInputDialog(null, "Escola o mão", "Truco", JOptionPane.PLAIN_MESSAGE, null, players, player1.getNome());
+            int o = JOptionPane.showOptionDialog(null, "Escolha o mão", "Escolha mão", JOptionPane.WARNING_MESSAGE, 1, null, players, players[0]);
+            System.out.println(o);
             switch(o) {
-                case "Paulo":
-                    player1.setMao(true);
+                case 0:
+                    jogador1.setMao(true);
+                    player1 = jogador1;
+                    player2 = jogador2;
                     break;
-                case "Diego":
-                    player2.setMao(true);
+                case 1:
+                    jogador2.setMao(true);
+                    player1 = jogador2;
+                    player2 = jogador1;
                     break;
             }
-        }while(player1.isMao() || player2.isMao());
+        }while(!(jogador1.isMao() || jogador2.isMao()));
 
         Object[] gritos = {"Envido", "Flor", "Truco", "Soltar Carta"};
+        
+        darCartas(player1, player2);
+        
+        String cartasPlayer1 = player1.listaCarta[0].toString() + player1.listaCarta[1].toString() + player1.listaCarta[2].toString();
+        String cartasPlayer2 = player2.listaCarta[0].toString() + player2.listaCarta[1].toString() + player2.listaCarta[2].toString();
 
         if(player1.isMao()){
             //String escolha = (String) JOptionPane.showInputDialog(null, "Escolha a jogada", player1.getNome(), JOptionPane.PLAIN_MESSAGE, null, gritos, "Escolha");
-            int escolha = JOptionPane.showOptionDialog(null, "Escolha a jogada", player1.getNome(), JOptionPane.WARNING_MESSAGE, 0, null, gritos, gritos[0]);
+            int escolha = JOptionPane.showOptionDialog(null, cartasPlayer1 , player1.getNome(), JOptionPane.WARNING_MESSAGE, 0, null, gritos, gritos[0]);
             switch(escolha){
                 case 0:
                  gritos[0] = "";
@@ -106,8 +118,8 @@ public class Main{
                         if(flor == 1){
                             int resposta_flor = JOptionPane.showOptionDialog(null, "Aceita a Falta Envido?", player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, confirmacao, confirmacao[0]);
                             if(resposta_flor == 0){
-                                int florP1 = p.calculaFlor(player1.cartas);
-                                int florP2 = p.calculaFlor(player2.cartas);
+                                int florP1 = p.calculaFlor(player1.listaCarta);
+                                int florP2 = p.calculaFlor(player2.listaCarta);
                                 int g = p.venceChamada(player1.isMao(), florP1, florP2);
                                 int pontos = p.verificaPontos("ContraFlor");
                                 if(g == 1){
@@ -122,8 +134,8 @@ public class Main{
                         }else{
                             int resposta_flor = JOptionPane.showOptionDialog(null, "Aceita a Falta Envido?", player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, confirmacao, confirmacao[0]);
                             if(resposta_flor == 0){
-                                int florP1 = p.calculaFlor(player1.cartas);
-                                int florP2 = p.calculaFlor(player2.cartas);
+                                int florP1 = p.calculaFlor(player1.listaCarta);
+                                int florP2 = p.calculaFlor(player2.listaCarta);
                                 int g = p.venceChamada(player1.isMao(), florP1, florP2);
                                 int pontos = p.verificaPontos("FlorEoResto");
                                 if(g == 1){
@@ -158,7 +170,8 @@ public class Main{
         }
     }
     
-    public void chamaTruco(Partida p, Player player1, Player player2){
+    public static void chamaTruco(Partida p, Player player1, Player player2){
+        Object[] confirmacao = {"Sim", "Não"};
         String[] trucoOpt = {"Quero", "Não quero", "Retruco"};
             int truco = JOptionPane.showOptionDialog(null, "Aceita o Truco?", player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, trucoOpt, trucoOpt[0]);
             if(truco == 0){
@@ -214,7 +227,7 @@ public class Main{
             }
     }
     
-    public Cartas jogarCartas(Player player){
+    public static Cartas jogarCartas(Player player){
         String[] jogarCarta = {player.listaCarta[0].toString(), player.listaCarta[1].toString(), player.listaCarta[2].toString()};
         int escolheCarta = JOptionPane.showOptionDialog(null, "Qual carta jogar?", player.getNome(), JOptionPane.YES_NO_OPTION, 0, null, jogarCarta, jogarCarta[0]);;
         switch(escolheCarta){
@@ -234,10 +247,10 @@ public class Main{
         return null;
     }
     
-    public void darCartas(Player player1, Player player2){
+    public static void darCartas(Player player1, Player player2){
         Random rand = new Random();
         for(int i = 0; i < 3; i++){
-            int numeroCarta = rand.nextInt(13) + 1;
+            int numeroCarta = rand.nextInt(12) + 1;
             int numeroNaipe = rand.nextInt(4) + 1;
             switch(numeroNaipe){
                 case 1:
