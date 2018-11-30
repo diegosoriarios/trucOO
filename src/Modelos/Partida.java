@@ -1,5 +1,7 @@
 package Modelos;
 
+import Modelos.Basto;
+
 public class Partida {
     private int turno;
 
@@ -11,6 +13,24 @@ public class Partida {
         this.turno = turno;
     }
 
+    public void atribuiForca(Cartas c, int forca){
+        if(c instanceof Basto){
+            c.atribuiForca(forca);
+        }else{
+            if(c instanceof Copas){
+                c.atribuiForca(forca);
+            }else{
+                if(c instanceof Espada){
+                    c.atribuiForca(forca);
+                }else{
+                    if(c instanceof Ouro){
+                        c.atribuiForca(forca);
+                    }
+                }
+            }
+        }
+    }
+    
     public int calculaForca(Cartas player1, Cartas player2){
         if(player1.getForca() > player2.getForca()){
             return 1; //1 ganhou
