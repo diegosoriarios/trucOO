@@ -78,11 +78,10 @@ public class Main{
                             System.out.println(envP1);
                             System.out.println(envP2);
                             int g = p.venceChamada(player1.isMao(), envP1, envP2);
-                            int pontos = p.verificaPontos("Envido");
                             if(g == 1){
-                                //atribui pontos para player1
+                                p.adicionaPontos(player1, p.verificaPontos("Envido"));
                             }else{
-                                //atribui pontos pra player2
+                                p.adicionaPontos(player2, p.verificaPontos("Envido"));
                             }
                         }else{
                             if(envido == 2){
@@ -91,15 +90,13 @@ public class Main{
                                     int envP1 = p.calculaEnvido(player1.listaCarta);
                                     int envP2 = p.calculaEnvido(player2.listaCarta);
                                     int g = p.venceChamada(player1.isMao(), envP1, envP2);
-                                    int pontos = p.verificaPontos("RealEnvido");
                                     if(g == 1){
-                                        //atribui pontos para player1
+                                        p.adicionaPontos(player1, p.verificaPontos("RealEnvido"));
                                     }else{
-                                        //atribui pontos pra player2
+                                        p.adicionaPontos(player2, p.verificaPontos("RealEnvido"));
                                     }
                                 }else{
-                                    int pontos = p.verificaPontos("Envido");
-                                    //player2 recebe um ponto;
+                                    p.adicionaPontos(player2, p.verificaPontos("Envido"));
                                 }
                             }else{
                                 if(envido == 3){
@@ -108,23 +105,19 @@ public class Main{
                                         int envP1 = p.calculaEnvido(player1.listaCarta);
                                         int envP2 = p.calculaEnvido(player2.listaCarta);
                                         int g = p.venceChamada(player1.isMao(), envP1, envP2);
-                                        int pontos = p.verificaPontos("FaltaEnvido");
                                         if(g == 1){
-                                            //atribui para o player1
+                                            p.adicionaPontos(player1, p.verificaPontos("FaltaEnvido"));
                                         }else{
-                                            //atribui para o player2
+                                            p.adicionaPontos(player2, p.verificaPontos("FaltaEnvido"));
                                         }
                                     }else{
-                                        int pontos = p.verificaPontos("Envido");
-                                        //player2 recebe um ponto;
+                                        p.adicionaPontos(player2, p.verificaPontos("Envido"));
                                     }
                                 }else{
-                                    int pontos = p.verificaPontos("Nao");
-                                    //player1 recebe um ponto;
+                                    p.adicionaPontos(player2, p.verificaPontos("Nao"));
                                 }    
                             }
                         }
-                        gritos[0] = "";
                         break;
                     case 1:
                     if(j != 0){
@@ -135,8 +128,7 @@ public class Main{
                     String[] florOpt = {"É bom...", "Contra Flor", "Flor ao Resto"};
                     int flor = JOptionPane.showOptionDialog(null, "FLOR", player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, florOpt, florOpt[0]);
                         if(flor == 0){
-                            p.verificaPontos("Flor");
-                            //atribuir pontos para player1
+                            p.adicionaPontos(player1, p.verificaPontos("Flor"));
                         }else{
                             if(flor == 1){
                                 int resposta_flor = JOptionPane.showOptionDialog(null, "Aceita a Falta Envido?", player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, confirmacao, confirmacao[0]);
@@ -144,15 +136,13 @@ public class Main{
                                     int florP1 = p.calculaFlor(player1.listaCarta);
                                     int florP2 = p.calculaFlor(player2.listaCarta);
                                     int g = p.venceChamada(player1.isMao(), florP1, florP2);
-                                    int pontos = p.verificaPontos("ContraFlor");
                                     if(g == 1){
-                                        //atribuir pontos player1
+                                        p.adicionaPontos(player1, p.verificaPontos("ContraFlor"));
                                     }else{
-                                        //atribuir pontos player2
+                                        p.adicionaPontos(player2, p.verificaPontos("ContraFlor"));
                                     }
                                 }else{
-                                    p.verificaPontos("Flor");
-                                    //atribuir pontos para player2
+                                    p.adicionaPontos(player2, p.verificaPontos("Flor"));
                                 }
                             }else{
                                 int resposta_flor = JOptionPane.showOptionDialog(null, "Aceita a Falta Envido?", player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, confirmacao, confirmacao[0]);
@@ -160,22 +150,23 @@ public class Main{
                                     int florP1 = p.calculaFlor(player1.listaCarta);
                                     int florP2 = p.calculaFlor(player2.listaCarta);
                                     int g = p.venceChamada(player1.isMao(), florP1, florP2);
-                                    int pontos = p.verificaPontos("FlorEoResto");
                                     if(g == 1){
-                                        //atribuir pontos player1
+                                        p.adicionaPontos(player1, p.verificaPontos("FlorEoResto"));
                                     }else{
-                                        //atribuir pontos player2
+                                        p.adicionaPontos(player2, p.verificaPontos("FlorEoResto"));
                                     }
                                 }else{
                                     p.verificaPontos("Flor");
-                                    //atribuir pontos para o player2
+                                    p.adicionaPontos(player2, p.verificaPontos("Flor"));
                                 }
                             }
                         }
                         gritos[1] = "";
                         break;
                     case 2:
-                        chamaTruco(p, player1, player2);
+                        for(int w = j; w < 3; w++){
+                            chamaTruco(p, player1, player2);
+                        }
                         break;
                     case 3:
                             Cartas jc1;
@@ -183,14 +174,22 @@ public class Main{
                             do{
                                 jc1 = jogarCartas(player1);
                             }while(jc1 == null);
-                            j--;
-                            do{
-                                jc2 = jogarCartas(player2);
-                            }while(jc2 == null);
-                            if(p.venceChamada(player1.isMao(), jc1.getForca(), jc2.getForca()) == 1){
-                                System.out.println(jc1.getNumero() + " ganhou");
+                            String[] truco2 = {"Truco", "Soltar Carta"};
+                            int t2 = JOptionPane.showOptionDialog(null, cartasPlayer2, "O que fazer?", JOptionPane.YES_NO_OPTION, 0, null, truco2, truco2[0]);
+                            if(t2 == 0){
+                                for(int w = j; w < 3; w++){
+                                    chamaTruco(p, player2, player1);
+                                }
                             }else{
-                                System.out.println(jc2.getNumero() + " ganhou");
+                                j--;
+                                do{
+                                    jc2 = jogarCartas(player2);
+                                }while(jc2 == null);
+                                if(p.venceChamada(player1.isMao(), jc1.getForca(), jc2.getForca()) == 1){
+                                    System.out.println(jc1.getNumero() + " ganhou");
+                                }else{
+                                    System.out.println(jc2.getNumero() + " ganhou");
+                                }
                             }
                         break;
                 }
@@ -215,12 +214,11 @@ public class Main{
                 Cartas trP1 = jogarCartas(player1);
                 Cartas trP2 = jogarCartas(player2);
                 int g = p.venceChamada(player1.isMao(), trP1.getForca(), trP2.getForca());
-                int pontos = p.verificaPontos("Truco");
                 if(g == 1){
-                    //atribui pontos para player1
+                    p.adicionaPontos(player1, p.verificaPontos("Truco"));
                 }else{
                     p.verificaPontos("Nao");
-                    //atribui pontos pra player2
+                    p.adicionaPontos(player2, p.verificaPontos("Truco"));
                 }
             }else{
                 if(truco == 2){
@@ -230,12 +228,10 @@ public class Main{
                         Cartas retrP1 = jogarCartas(player1);
                         Cartas retrP2 = jogarCartas(player2);
                         int g = p.venceChamada(player1.isMao(), retrP1.getForca(), retrP2.getForca());
-                        int pontos = p.verificaPontos("Retruco");
                         if(g == 1){
-                            //atribui pontos para player1
+                            p.adicionaPontos(player1, p.verificaPontos("Retruco"));
                         }else{
-                            p.verificaPontos("Truco");
-                            //atribui pontos pra player2
+                            p.adicionaPontos(player2, p.verificaPontos("Retruco"));
                         }
                     }else{
                         if(retruco == 2){
@@ -244,22 +240,20 @@ public class Main{
                                 Cartas vqP1 = jogarCartas(player1);
                                 Cartas vqP2 = jogarCartas(player2);
                                 int g = p.venceChamada(player1.isMao(), vqP1.getForca(), vqP2.getForca());
-                                int pontos = p.verificaPontos("ValeQuatro");
                                 if(g == 1){
-                                    //atribui pontos para player1
+                                    p.adicionaPontos(player1, p.verificaPontos("ValeQuatro"));
                                 }else{
-                                    p.verificaPontos("Retruco");
-                                    //atribui pontos pra player2
+                                    p.adicionaPontos(player2, p.verificaPontos("ValeQuatro"));
                                 }
                             }else{
-                                p.verificaPontos("Retruco");
+                                p.adicionaPontos(player1, p.verificaPontos("Retruco"));
                             }
                         }else{
-                            //atribui pontos para o player 2
+                            p.adicionaPontos(player2, p.verificaPontos("Truco"));
                         }
                     }
                 }else{
-                    //atribui pontos para o player 1
+                    p.adicionaPontos(player1, p.verificaPontos("Nao"));
                 }
             }
     }
