@@ -15,6 +15,7 @@ public class Player {
     private String nome;
     private boolean mao;
     public ArrayList cartas = new ArrayList();
+    public Cartas[] listaCarta = new Cartas[3];
 
     public Player(String nome){
         this.nome = nome;

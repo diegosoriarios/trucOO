@@ -10,6 +10,9 @@ package Modelos;
  * @author diego
  */
 public class Espada extends Cartas{
+    public Espada() {
+        naipe = "Espada";
+    }
 
     @Override
     public void atribuiForca(int numero) {

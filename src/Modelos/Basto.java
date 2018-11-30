@@ -10,6 +10,9 @@ package Modelos;
  * @author diego
  */
 public class Basto extends Cartas {
+    public Basto() {
+        naipe = "Basto";
+    }
 
     @Override
     public void atribuiForca(int numero) {

@@ -12,6 +12,7 @@ package Modelos;
 public abstract class Cartas {
     protected int numero;
     protected int forca;
+    protected String naipe;
     
     public abstract void atribuiForca(int numero);
 
@@ -30,4 +31,14 @@ public abstract class Cartas {
     public void setForca(int forca) {
         this.forca = forca;
     }
+
+    public String getNaipe() {
+        return naipe;
+    }
+
+    public void setNaipe(String naipe) {
+        this.naipe = naipe;
+    }
+    
+    
 }

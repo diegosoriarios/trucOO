@@ -5,6 +5,8 @@
  */
 package Modelos;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author diego
@@ -20,19 +22,7 @@ public class Partida {
         this.turno = turno;
     }
     
-    public int calculaForca(Cartas player1, Cartas player2){
-        if(player1.getForca() > player2.getForca()){
-            return 1; //1 ganhou
-        }else{
-            if(player2.getForca() > player1.getForca()){
-                return 2;//2 ganhou
-            }else{
-                return 0;//empate
-            }
-        }
-    }
-    
-    public int calculaEnvido(Cartas c) {
+    public int calculaEnvido(Cartas[] c) {
         int envido=0;
         if (c[0].getNaipe().equals(c[1].getNaipe())){
             if (c[0].getNumero() >= 10){
@@ -72,15 +62,15 @@ public class Partida {
                 envido += c[2].getNumero();
             }
         }else{
-            if (c[0].getNumero < 10 && c[0].getNumero() >= c[1].getNumero()){
+            if (c[0].getNumero() < 10 && c[0].getNumero() >= c[1].getNumero()){
                 if (c[0].getNumero() >= c[2].getNumero()){
                     envido += c[0].getNumero();
                 }
-            }else if (c[1].getNumero < 10 && c[1].getNumero() >= c[0].getNumero()){
+            }else if (c[1].getNumero() < 10 && c[1].getNumero() >= c[0].getNumero()){
                 if (c[1].getNumero() >= c[2].getNumero()){
                     envido += c[1].getNumero();
                 }
-            }else if (c[2].getNumero < 10 && c[2].getNumero() >= c[0].getNumero()){
+            }else if (c[2].getNumero() < 10 && c[2].getNumero() >= c[0].getNumero()){
                 if (c[2].getNumero() >= c[1].getNumero()){
                     envido += c[2].getNumero();
                 }
@@ -91,7 +81,7 @@ public class Partida {
         return envido;
     }
     
-    public int calculaFlor(Cartas c){
+    public int calculaFlor(Cartas[] c){
         int flor=0;
         if (c[0].getNaipe().equals(c[1].getNaipe()) && c[1].getNaipe().equals(c[2].getNaipe())){
             if (c[0].getNumero() >= 10){

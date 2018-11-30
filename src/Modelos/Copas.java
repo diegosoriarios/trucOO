@@ -11,6 +11,11 @@ package Modelos;
  */
 public class Copas extends Cartas {
 
+    public Copas() {
+        naipe = "Copas";
+    }
+    
+
     @Override
     public void atribuiForca(int numero) {
         if(numero >= 1 && numero <= 3){
