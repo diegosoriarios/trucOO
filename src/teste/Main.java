@@ -69,7 +69,9 @@ public class Main{
                     }else{
                         if(pontoRodada == 2){
                             gritos[2] = "Vale Quatro";
-                        }
+                        }else{
+                            gritos[2] = "";
+                        } 
                     }
                 }
                 
@@ -184,7 +186,7 @@ public class Main{
                                 pontoRodada = chamaRetruco(p, pontoRodada, player1, player2);
                             }else{
                                 if(pontoRodada == 2){
-                                    pontoRodada = chamaRetruco(p, pontoRodada, player1, player2);
+                                    pontoRodada = chamaValeQuatro(p, pontoRodada, player1, player2);
                                 }
                             }
                         }
