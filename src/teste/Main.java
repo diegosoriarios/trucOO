@@ -187,6 +187,9 @@ public class Main{
                             }else{
                                 if(pontoRodada == 2){
                                     pontoRodada = chamaValeQuatro(p, pontoRodada, player1, player2);
+                                }else{
+                                    JOptionPane.showMessageDialog(null, "Escolha uma opção valida!!");
+                                    j-=2;
                                 }
                             }
                         }
@@ -218,19 +221,19 @@ public class Main{
                     if(pontoRodada == 0){
                         pontoRodada = chamaTruco(p, pontoRodada, player2, player1);
                         if(pontoRodada == 0){
-                            //terminha
+                            j = 5;
                         }
                     }else{
                         if(pontoRodada == 1){
                             pontoRodada = chamaRetruco(p, pontoRodada, player2, player1);
                             if(pontoRodada == 1){
-                                //termina
+                                j = 5;
                             }
                         }else{
                             if(pontoRodada == 2){
                                 pontoRodada = chamaValeQuatro(p, pontoRodada, player2, player1);
                                 if(pontoRodada == 2){
-                                    //termina
+                                    j = 5;
                                 }
                             }else{
                                 JOptionPane.showMessageDialog(null, "Escolha uma opção valida!!");
@@ -281,7 +284,7 @@ public class Main{
                     }
                 }   
                 if(player1.getRodadaGanha() == 2){
-                    //player1ganhou
+                    
                 }else{
                     if(player2.getRodadaGanha() == 2){
                         //player2ganhou
