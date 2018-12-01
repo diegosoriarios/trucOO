@@ -215,12 +215,21 @@ public class Main{
                 if(t2 == 0){
                     if(pontoRodada == 0){
                         pontoRodada = chamaTruco(p, pontoRodada, player2, player1);
+                        if(pontoRodada == 0){
+                            //terminha
+                        }
                     }else{
                         if(pontoRodada == 1){
                             pontoRodada = chamaRetruco(p, pontoRodada, player2, player1);
+                            if(pontoRodada == 1){
+                                //termina
+                            }
                         }else{
                             if(pontoRodada == 2){
                                 pontoRodada = chamaValeQuatro(p, pontoRodada, player2, player1);
+                                if(pontoRodada == 2){
+                                    //termina
+                                }
                             }else{
                                 JOptionPane.showMessageDialog(null, "Escolha uma opção valida!!");
                             }
@@ -234,12 +243,41 @@ public class Main{
                 int resultado = p.calculaForca(jc1, jc2);
                 if(resultado == 1){
                     player1.setRodadaGanha(player1.getRodadaGanha() + 1);
+                    if(pontoRodada == 0){
+                        p.adicionaPontos(player1, p.verificaPontos("Nao"));
+                    }else{
+                        if(pontoRodada == 1){
+                            p.adicionaPontos(player1, p.verificaPontos("Truco"));
+                        }else{
+                            if(pontoRodada == 2){
+                                p.adicionaPontos(player1, p.verificaPontos("Retruco"));
+                            }else{
+                                if(pontoRodada == 3){
+                                    p.adicionaPontos(player1, p.verificaPontos("ValeQuatro"));
+                                }
+                            }
+                        }
+                    }
                 }else{
                     if(resultado == 2){
                         player2.setRodadaGanha(player2.getRodadaGanha() + 1);
+                        if(pontoRodada == 0){
+                            p.adicionaPontos(player2, p.verificaPontos("Nao"));
+                        }else{
+                            if(pontoRodada == 1){
+                                p.adicionaPontos(player2, p.verificaPontos("Truco"));
+                            }else{
+                                if(pontoRodada == 2){
+                                    p.adicionaPontos(player2, p.verificaPontos("Retruco"));
+                                }else{
+                                    if(pontoRodada == 3){
+                                        p.adicionaPontos(player2, p.verificaPontos("ValeQuatro"));
+                                    }
+                                }
+                            }
+                        }
                     }
-                }
-                
+                }   
                 if(player1.getRodadaGanha() == 2){
                     //player1ganhou
                 }else{
