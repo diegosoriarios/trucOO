@@ -16,6 +16,7 @@ public class Main{
     Object[] confirmacao = {"Sim", "Não"};
     
     public static void main(String[] args){
+        
         int j = 0;
         Object[] confirmacao = {"Sim", "Não"};
         Partida p = new Partida();
@@ -49,7 +50,8 @@ public class Main{
 
             String cartasPlayer1 = player1.listaCarta[0].toString() + player1.listaCarta[1].toString() + player1.listaCarta[2].toString();
             String cartasPlayer2 = player2.listaCarta[0].toString() + player2.listaCarta[1].toString() + player2.listaCarta[2].toString();
-            
+        
+       int pontoRodada = 0;
         while(j < 3){
             System.out.println("j: " + j);    
             if(player1.isMao()){
@@ -59,6 +61,17 @@ public class Main{
                     gritos[0] = "";
                     gritos[1] = "";
                 } 
+                if(pontoRodada == 0){
+                    gritos[2] = "Truco";
+                }else{
+                    if(pontoRodada == 1){
+                        gritos[2] = "Retruco";
+                    }else{
+                        if(pontoRodada == 2){
+                            gritos[2] = "Vale Quatro";
+                        }
+                    }
+                }
                 
                 int escolha = JOptionPane.showOptionDialog(null, cartasPlayer1 , player1.getNome(), JOptionPane.WARNING_MESSAGE, 0, null, gritos, gritos[0]);
                 switch(escolha){
@@ -164,34 +177,64 @@ public class Main{
                         gritos[1] = "";
                         break;
                     case 2:
-                        for(int w = j; w < 3; w++){
-                            chamaTruco(p, player1, player2);
+                        if(pontoRodada == 0){
+                            pontoRodada = chamaTruco(p, pontoRodada,player1, player2);   
+                        }else{
+                            if(pontoRodada == 1){
+                                pontoRodada = chamaRetruco(p, pontoRodada, player1, player2);
+                            }else{
+                                if(pontoRodada == 2){
+                                    pontoRodada = chamaRetruco(p, pontoRodada, player1, player2);
+                                }
+                            }
                         }
                         break;
                     case 3:
-                            Cartas jc1;
-                            Cartas jc2;
-                            do{
-                                jc1 = jogarCartas(player1);
-                            }while(jc1 == null);
-                            String[] truco2 = {"Truco", "Soltar Carta"};
-                            int t2 = JOptionPane.showOptionDialog(null, cartasPlayer2, "O que fazer?", JOptionPane.YES_NO_OPTION, 0, null, truco2, truco2[0]);
-                            if(t2 == 0){
-                                for(int w = j; w < 3; w++){
-                                    chamaTruco(p, player2, player1);
-                                }
-                            }else{
-                                j--;
-                                do{
-                                    jc2 = jogarCartas(player2);
-                                }while(jc2 == null);
-                                if(p.venceChamada(player1.isMao(), jc1.getForca(), jc2.getForca()) == 1){
-                                    System.out.println(jc1.getNumero() + " ganhou");
-                                }else{
-                                    System.out.println(jc2.getNumero() + " ganhou");
-                                }
-                            }
                         break;
+                }
+                Cartas jc1;
+                Cartas jc2;
+                do{
+                    jc1 = jogarCartas(player1);
+                }while(jc1 == null);
+                String[] truco2 = {"Truco", "Soltar Carta"};
+                if(pontoRodada == 0){
+                    truco2[0] = "Truco";
+                }else{
+                    if(pontoRodada == 1){
+                        truco2[0] = "Retruco"; 
+                    }else{
+                        if(pontoRodada == 2){
+                            truco2[0] = "Vale Quatro";
+                        }else{
+                            truco2[0] = "";
+                        }
+                    }
+                }
+                int t2 = JOptionPane.showOptionDialog(null, cartasPlayer2, player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, truco2, truco2[0]);
+                if(t2 == 0){
+                    if(pontoRodada == 0){
+                        pontoRodada = chamaTruco(p, pontoRodada, player2, player1);
+                    }else{
+                        if(pontoRodada == 1){
+                            pontoRodada = chamaRetruco(p, pontoRodada, player2, player1);
+                        }else{
+                            if(pontoRodada == 2){
+                                pontoRodada = chamaValeQuatro(p, pontoRodada, player2, player1);
+                            }else{
+                                JOptionPane.showMessageDialog(null, "Escolha uma opção valida!!");
+                            }
+                        }
+                    } 
+                }
+                j--;
+                do{
+                    jc2 = jogarCartas(player2);
+                }while(jc2 == null);
+                if(p.venceChamada(player1.isMao(), jc1.getForca(), jc2.getForca()) == 1){
+                    System.out.println(jc1.getNumero() + " ganhou");
+                }else{
+                    System.out.println(jc2.getNumero() + " ganhou");
                 }
             }
 
@@ -206,56 +249,45 @@ public class Main{
         }
     }
     
-    public static void chamaTruco(Partida p, Player player1, Player player2){
-        Object[] confirmacao = {"Sim", "Não"};
+    public static int chamaTruco(Partida p, int partidaRodada, Player player1, Player player2){
         String[] trucoOpt = {"Quero", "Não quero", "Retruco"};
             int truco = JOptionPane.showOptionDialog(null, "Aceita o Truco?", player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, trucoOpt, trucoOpt[0]);
             if(truco == 0){
-                Cartas trP1 = jogarCartas(player1);
-                Cartas trP2 = jogarCartas(player2);
-                int g = p.venceChamada(player1.isMao(), trP1.getForca(), trP2.getForca());
-                if(g == 1){
-                    p.adicionaPontos(player1, p.verificaPontos("Truco"));
-                }else{
-                    p.verificaPontos("Nao");
-                    p.adicionaPontos(player2, p.verificaPontos("Truco"));
-                }
+                partidaRodada++;
             }else{
                 if(truco == 2){
-                    String[] retrucoOpt = {"Quero", "Não quero", "ValeQuatro"};
-                    int retruco = JOptionPane.showOptionDialog(null, "Aceita o Retruco?", player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, retrucoOpt, retrucoOpt[0]);
-                    if(retruco == 0){
-                        Cartas retrP1 = jogarCartas(player1);
-                        Cartas retrP2 = jogarCartas(player2);
-                        int g = p.venceChamada(player1.isMao(), retrP1.getForca(), retrP2.getForca());
-                        if(g == 1){
-                            p.adicionaPontos(player1, p.verificaPontos("Retruco"));
-                        }else{
-                            p.adicionaPontos(player2, p.verificaPontos("Retruco"));
-                        }
-                    }else{
-                        if(retruco == 2){
-                            int valeq = JOptionPane.showOptionDialog(null, "Aceita o Vale Quatro?", player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, confirmacao, confirmacao[0]);
-                            if(valeq == 0){
-                                Cartas vqP1 = jogarCartas(player1);
-                                Cartas vqP2 = jogarCartas(player2);
-                                int g = p.venceChamada(player1.isMao(), vqP1.getForca(), vqP2.getForca());
-                                if(g == 1){
-                                    p.adicionaPontos(player1, p.verificaPontos("ValeQuatro"));
-                                }else{
-                                    p.adicionaPontos(player2, p.verificaPontos("ValeQuatro"));
-                                }
-                            }else{
-                                p.adicionaPontos(player1, p.verificaPontos("Retruco"));
-                            }
-                        }else{
-                            p.adicionaPontos(player2, p.verificaPontos("Truco"));
-                        }
-                    }
+                    chamaRetruco(p, partidaRodada, player1, player2);
                 }else{
-                    p.adicionaPontos(player1, p.verificaPontos("Nao"));
+                    return 0;
                 }
             }
+            return partidaRodada;
+    }
+    
+    public static int chamaRetruco(Partida p, int partidaRodada, Player player1, Player player2){
+        String[] trucoOpt = {"Quero", "Não quero", "Vale Quatro"};
+            int truco = JOptionPane.showOptionDialog(null, "Aceita o Retruco?", player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, trucoOpt, trucoOpt[0]);
+            if(truco == 0){
+                partidaRodada++;
+            }else{
+                if(truco == 2){
+                    chamaValeQuatro(p, partidaRodada, player1, player2);
+                }else{
+                    return 0;
+                }
+            }
+            return partidaRodada;
+    }
+    
+    public static int chamaValeQuatro(Partida p, int partidaRodada, Player player1, Player player2){
+        Object[] confirmacao = {"Sim", "Não"};
+            int truco = JOptionPane.showOptionDialog(null, "Aceita o Vale Quatro?", player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, confirmacao, confirmacao[0]);
+            if(truco == 0){
+                partidaRodada++;
+            }else{
+               return 0;
+            }
+            return partidaRodada;
     }
     
     public static Cartas jogarCartas(Player player){
