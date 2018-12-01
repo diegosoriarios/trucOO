@@ -6,11 +6,21 @@ public class Player {
     private String nome;
     private boolean mao;
     private int pontos;
+    private int rodadaGanha;
     public Cartas[] listaCarta = new Cartas[3];
 
     public Player(String nome){
         this.nome = nome;
         this.mao = false;
+        this.rodadaGanha = 0;
+    }
+    
+    public int getRodadaGanha(){
+        return rodadaGanha;
+    }
+    
+    public void setRodadaGanha(int rodadaGanha){
+        this.rodadaGanha = rodadaGanha;
     }
     
     public int getPontos() {

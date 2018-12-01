@@ -231,13 +231,32 @@ public class Main{
                 do{
                     jc2 = jogarCartas(player2);
                 }while(jc2 == null);
-                if(p.venceChamada(player1.isMao(), jc1.getForca(), jc2.getForca()) == 1){
-                    System.out.println(jc1.getNumero() + " ganhou");
+                int resultado = p.calculaForca(jc1, jc2);
+                if(resultado == 1){
+                    player1.setRodadaGanha(player1.getRodadaGanha() + 1);
                 }else{
-                    System.out.println(jc2.getNumero() + " ganhou");
+                    if(resultado == 2){
+                        player2.setRodadaGanha(player2.getRodadaGanha() + 1);
+                    }
+                }
+                
+                if(player1.getRodadaGanha() == 2){
+                    //player1ganhou
+                }else{
+                    if(player2.getRodadaGanha() == 2){
+                        //player2ganhou
+                    }else{
+                        if(p.getTurno() == 2 && player1.getRodadaGanha() == 1 && player2.getRodadaGanha() == 0){
+                            //player1ganhou
+                        }else{
+                            if(p.getTurno() == 2 && player1.getRodadaGanha() == 0 && player2.getRodadaGanha() == 1){
+                                //player2ganhou
+                            }
+                        }
+                    }
                 }
             }
-
+            p.setTurno(p.getTurno() + 1);
             if(player1.isMao()){
                 player1.setMao(false);
                 player2.setMao(true);
