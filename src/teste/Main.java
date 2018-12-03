@@ -56,10 +56,13 @@ public class Main{
             int pontoRodada = 0;
             //reseta o turno
             p.setTurno(0);
+            //reseta variavel checkEnvido
+            boolean checkEnvido = false;
             //enquanto o turno for menor que 3
             while(p.getTurno() < 3){
                 //se não estiver no primeiro turno não da a opção de pedir envido e flor
-                if(p.getTurno() != 0){
+                //ou se já for pedido envido
+                if(p.getTurno() != 0 || checkEnvido){
                     gritos[0] = "";
                     gritos[1] = "";
                 } 
@@ -86,7 +89,7 @@ public class Main{
                     case 0:
                      /*---------------------ENVIDO----------------------------*/
                      //se não estiver na primeira rodada não deixa pedir envido
-                     if(p.getTurno() != 0){
+                     if(p.getTurno() != 0 || checkEnvido){
                          JOptionPane.showMessageDialog(null, "Escolha uma opção valida!!");
                          //p.setTurno(p.getTurno() - 1);
                          break;
@@ -94,17 +97,17 @@ public class Main{
                      //se pedir envido não mostra mais nem envido nem flor entre as opções
                      gritos[0] = "";
                      gritos[1] = "";
-                     chamaEnvido(p, player1, player2);
+                     checkEnvido = chamaEnvido(p, player1, player2);
                      continue;
                     case 1:
                     /*-------------------------FLOR---------------------------*/
                     //se não estiver na primeira rodada não deixa pedir flor
-                    if(p.getTurno() != 0){
+                    if(p.getTurno() != 0 || checkEnvido){
                         JOptionPane.showMessageDialog(null, "Escolha uma opção valida!!");
                         //p.setTurno(p.getTurno() - 1);
                         break;
                     }
-                    chamaFlor(p, player1, player2);
+                    checkEnvido = chamaFlor(p, player1, player2);
                     //se pedir flor não mostra mais nem flor nem envido entre as opções
                     gritos[0] = "";
                     gritos[1] = "";
@@ -183,6 +186,12 @@ public class Main{
                         }
                     }
                 }
+                //se não estiver no primeiro turno não da a opção de pedir envido e flor
+                //ou se já for pedido envido
+                if(p.getTurno() != 0 || checkEnvido){
+                    truco2[2] = "";
+                    truco2[3] = "";
+                } 
                 int t2 = JOptionPane.showOptionDialog(null, cartasPlayer2, player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, truco2, truco2[0]);
                 if(t2 == 0){
                     //testa se ainda não pediram truco
@@ -223,11 +232,23 @@ public class Main{
                 }else{
                     if(t2 == 2){
                         //se o player2 chamar envido
-                        chamaEnvido(p, player2, player1);
+                        if(p.getTurno() != 0 || checkEnvido){
+                            //se já foi pedido ou se já passou do primeiro turno
+                            JOptionPane.showMessageDialog(null, "Escolha uma opção valida!!");
+                            //p.setTurno(p.getTurno() - 1);
+                        }else{
+                            checkEnvido = chamaEnvido(p, player2, player1);
+                        }
                     }else{
                         if(t2 == 3){
                             //se o player2 chamar flor;
-                            chamaFlor(p, player2, player1);
+                            if(p.getTurno() != 0 || checkEnvido){
+                            //se já foi pedido ou se já passou do primeiro turno
+                                JOptionPane.showMessageDialog(null, "Escolha uma opção valida!!");
+                                //p.setTurno(p.getTurno() - 1);
+                            }else{
+                                checkEnvido = chamaFlor(p, player2, player1);
+                            }
                         }
                     }
                 }
@@ -415,6 +436,8 @@ public class Main{
                 }
                 //incrementa a rodada
                 p.setTurno(p.getTurno() + 1);
+                //pra não aparecer a opção de envido mais
+                checkEnvido = true;
                 //altera quem é o player1 e o player2
                 if(player1.isMao()){
                     player1.setMao(false);
@@ -433,7 +456,7 @@ public class Main{
         System.out.println(player2.getNome() + " pontos: " + player2.getPontos());
     }
     
-    public static void chamaEnvido(Partida p, Player player1, Player player2){
+    public static boolean chamaEnvido(Partida p, Player player1, Player player2){
         Object[] confirmacao = {"Sim", "Não"};
         String cartasPlayer1 = player1.listaCarta[0].toString() + player1.listaCarta[1].toString() + player1.listaCarta[2].toString();
         //mostra só as cartas que o player2 ainda não jogou
@@ -511,9 +534,11 @@ public class Main{
                    }    
                }
            }
+           //mostra que já foi chamado
+           return true;
     }
     
-    public static void chamaFlor(Partida p, Player player1, Player player2){
+    public static boolean chamaFlor(Partida p, Player player1, Player player2){
         Object[] confirmacao = {"Sim", "Não"};
         String cartasPlayer1 = player1.listaCarta[0].toString() + player1.listaCarta[1].toString() + player1.listaCarta[2].toString();
         //mostra só as cartas que o player 2 ainda não jogou
@@ -583,6 +608,8 @@ public class Main{
                     }
                 }
             }
+            //mostra que ja foi chamado
+            return true;
     }
     
     public static int chamaTruco(Partida p, int partidaRodada, Player player1, Player player2){
