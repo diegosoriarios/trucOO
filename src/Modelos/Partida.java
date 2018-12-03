@@ -3,6 +3,10 @@ package Modelos;
 public class Partida {
     private int turno;
 
+    public Partida() {
+        this.turno = 0;
+    }
+
     public int getTurno() {
         return turno;
     }

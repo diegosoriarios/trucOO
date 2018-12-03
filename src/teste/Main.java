@@ -16,8 +16,6 @@ public class Main{
     Object[] confirmacao = {"Sim", "Não"};
     
     public static void main(String[] args){
-        
-        int j = 0;
         Object[] confirmacao = {"Sim", "Não"};
         Partida p = new Partida();
         Player jogador1 = new Player("Paulo");
@@ -28,7 +26,6 @@ public class Main{
         Object[] players = {jogador1.getNome(), jogador2.getNome()};
         do{
             int o = JOptionPane.showOptionDialog(null, "Escolha o mão", "Escolha mão", JOptionPane.WARNING_MESSAGE, 1, null, players, players[0]);
-            System.out.println(o);
             switch(o) {
                 case 0:
                     jogador1.setMao(true);
@@ -43,21 +40,20 @@ public class Main{
             }
         }while(!(jogador1.isMao() || jogador2.isMao()));
 
-
+        while(!(player1.getPontos() > 12 || player2.getPontos() > 12)){
             Object[] gritos = {"Envido", "Flor", "Truco", "Soltar Carta"};
 
             darCartas(player1, player2, p);
 
             String cartasPlayer1 = player1.listaCarta[0].toString() + player1.listaCarta[1].toString() + player1.listaCarta[2].toString();
             String cartasPlayer2 = player2.listaCarta[0].toString() + player2.listaCarta[1].toString() + player2.listaCarta[2].toString();
-        
-       int pontoRodada = 0;
-        while(j < 3){
-            System.out.println("j: " + j);    
-            if(player1.isMao()){
-                //começa o loop do Envido/Flor pra voltar a escolher o que fazer 
-                //for(int x = 0; i < 3; i++)
-                if(j != 0){
+            
+            player1.setRodadaGanha(0);
+            player2.setRodadaGanha(0);
+            int pontoRodada = 0;
+            p.setTurno(0);
+            while(p.getTurno() < 3){        
+                if(p.getTurno() != 0){
                     gritos[0] = "";
                     gritos[1] = "";
                 } 
@@ -74,14 +70,14 @@ public class Main{
                         } 
                     }
                 }
-                
+
                 int escolha = JOptionPane.showOptionDialog(null, cartasPlayer1 , player1.getNome(), JOptionPane.WARNING_MESSAGE, 0, null, gritos, gritos[0]);
                 switch(escolha){
                     case 0:
                      /*---------------------ENVIDO----------------------------*/
-                     if(j != 0){
+                     if(p.getTurno() != 0){
                          JOptionPane.showMessageDialog(null, "Escolha uma opção valida!!");
-                         j-=2;
+                         //p.setTurno(p.getTurno() - 1);
                          break;
                      }
                      gritos[0] = "";
@@ -90,9 +86,9 @@ public class Main{
                      continue;
                     case 1:
                     /*-------------------------FLOR---------------------------*/
-                    if(j != 0){
+                    if(p.getTurno() != 0){
                         JOptionPane.showMessageDialog(null, "Escolha uma opção valida!!");
-                        j-=2;
+                        //p.setTurno(p.getTurno() - 1);
                         break;
                     }
                     chamaFlor(p, player1, player2);
@@ -104,24 +100,24 @@ public class Main{
                         if(pontoRodada == 0){
                             pontoRodada = chamaTruco(p, pontoRodada,player1, player2);
                             if(pontoRodada == 0){
-                                j = 5;
+                                p.setTurno(5);
                                 continue;
                             }
                         }else{
                             if(pontoRodada == 1){
                                 pontoRodada = chamaRetruco(p, pontoRodada, player1, player2);
                                 if(pontoRodada == 1){
-                                    j = 5;
+                                    p.setTurno(5);
                                     continue;
                                 }
                             }else{
                                 if(pontoRodada == 2){
                                     pontoRodada = chamaValeQuatro(p, pontoRodada, player1, player2);
-                                    j = 5;
+                                    p.setTurno(5);
                                     continue;
                                 }else{
                                     JOptionPane.showMessageDialog(null, "Escolha uma opção valida!!");
-                                    j-=2;
+                                    //p.setTurno(p.getTurno() - 1);
                                 }
                             }
                         }
@@ -136,7 +132,7 @@ public class Main{
                     jc1 = jogarCartas(player1);
                 }while(jc1 == null);
                 String[] truco2 = {"Truco", "Soltar Carta", "Envido", "Flor"};
-                if(j != 0){
+                if(p.getTurno() != 0){
                     truco2[2] = "";
                     truco2[3] = "";
                 }
@@ -158,21 +154,21 @@ public class Main{
                     if(pontoRodada == 0){
                         pontoRodada = chamaTruco(p, pontoRodada, player2, player1);
                         if(pontoRodada == 0){
-                            j = 5;
+                            p.setTurno(5);
                             continue;
                         }
                     }else{
                         if(pontoRodada == 1){
                             pontoRodada = chamaRetruco(p, pontoRodada, player2, player1);
                             if(pontoRodada == 1){
-                                j = 5;
+                                p.setTurno(5);
                                 continue;
                             }
                         }else{
                             if(pontoRodada == 2){
                                 pontoRodada = chamaValeQuatro(p, pontoRodada, player2, player1);
                                 if(pontoRodada == 2){
-                                    j = 5;
+                                    p.setTurno(5);
                                     continue;
                                 }
                             }else{
@@ -189,13 +185,24 @@ public class Main{
                         }
                     }
                 }
-                j--;
+                //p.setTurno(p.getTurno() - 1);
                 do{
                     jc2 = jogarCartas(player2);
                 }while(jc2 == null);
-                int resultado = p.calculaForca(jc1, jc2);
+                int resultado = p.calculaForca(jc1, jc2); //calcula quem ganhou a rodada
                 if(resultado == 1){
                     player1.setRodadaGanha(player1.getRodadaGanha() + 1);
+                }else{
+                    if(resultado == 2){
+                        player2.setRodadaGanha(player2.getRodadaGanha() + 1);
+                    }
+                }   
+                System.out.println("----------------------\n");
+                System.out.println(player1.getNome() + " ganhou " + player1.getRodadaGanha() + "\n");
+                System.out.println(player2.getNome() + " ganhou " + player2.getRodadaGanha() + "\n");
+                System.out.println("----------------------\n");
+                if(player1.getRodadaGanha() == 2){
+                    JOptionPane.showMessageDialog(null, player1.getNome() + " ganhou a rodada!!");
                     if(pontoRodada == 0){
                         p.adicionaPontos(player1, p.verificaPontos("Nao"));
                     }else{
@@ -211,9 +218,10 @@ public class Main{
                             }
                         }
                     }
+                    p.setTurno(3);
                 }else{
-                    if(resultado == 2){
-                        player2.setRodadaGanha(player2.getRodadaGanha() + 1);
+                    if(player2.getRodadaGanha() == 2){
+                        JOptionPane.showMessageDialog(null, player2.getNome() + " ganhou a rodada!!");
                         if(pontoRodada == 0){
                             p.adicionaPontos(player2, p.verificaPontos("Nao"));
                         }else{
@@ -229,34 +237,103 @@ public class Main{
                                 }
                             }
                         }
-                    }
-                }   
-                if(player1.getRodadaGanha() == 2){
-                    
-                }else{
-                    if(player2.getRodadaGanha() == 2){
-                        //player2ganhou
+                        p.setTurno(3);
                     }else{
                         if(p.getTurno() == 2 && player1.getRodadaGanha() == 1 && player2.getRodadaGanha() == 0){
-                            //player1ganhou
+                            JOptionPane.showMessageDialog(null, player1.getNome() + " ganhou a rodada!!");
+                            if(pontoRodada == 0){
+                                p.adicionaPontos(player1, p.verificaPontos("Nao"));
+                            }else{
+                                if(pontoRodada  == 1){
+                                    p.adicionaPontos(player1, p.verificaPontos("Truco"));
+                                }else{
+                                    if(pontoRodada == 2){
+                                        p.adicionaPontos(player1, p.verificaPontos("Retruco"));
+                                    }else{
+                                        if(pontoRodada == 3){
+                                            p.adicionaPontos(player1, p.verificaPontos("ValeQuatro"));
+                                        }
+                                    }
+                                }
+                            }
+                            p.setTurno(3);
                         }else{
                             if(p.getTurno() == 2 && player1.getRodadaGanha() == 0 && player2.getRodadaGanha() == 1){
-                                //player2ganhou
+                                JOptionPane.showMessageDialog(null, player2.getNome() + " ganhou a rodada!!");
+                                if(pontoRodada == 0){
+                                    p.adicionaPontos(player2, p.verificaPontos("Nao"));
+                                }else{
+                                    if(pontoRodada == 1){
+                                        p.adicionaPontos(player2, p.verificaPontos("Truco"));
+                                    }else{
+                                        if(pontoRodada == 2){
+                                            p.adicionaPontos(player2, p.verificaPontos("Retruco"));
+                                        }else{
+                                            if(pontoRodada == 3){
+                                                p.adicionaPontos(player2, p.verificaPontos("ValeQuatro"));
+                                            }
+                                        }
+                                    }
+                                }
+                                p.setTurno(3);
+                            }else{
+                                if(p.getTurno() == 3){
+                                    if(player1.isMao()){
+                                        JOptionPane.showMessageDialog(null, player1.getNome() + " ganhou a rodada!!");
+                                        if(pontoRodada == 0){
+                                            p.adicionaPontos(player1, p.verificaPontos("Nao"));
+                                        }else{
+                                            if(pontoRodada == 1){
+                                                p.adicionaPontos(player1, p.verificaPontos("Truco"));
+                                            }else{
+                                                if(pontoRodada == 2){
+                                                    p.adicionaPontos(player1, p.verificaPontos("Retruco"));
+                                                }else{
+                                                    if(pontoRodada == 3){
+                                                        p.adicionaPontos(player1, p.verificaPontos("ValeQuatro"));
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        p.setTurno(3);
+                                    }else{
+                                        JOptionPane.showMessageDialog(null, player2.getNome() + " ganhou a rodada!!");
+                                        if(pontoRodada == 0){
+                                            p.adicionaPontos(player2, p.verificaPontos("Nao"));
+                                        }else{
+                                            if(pontoRodada == 1){
+                                                p.adicionaPontos(player2, p.verificaPontos("Truco"));
+                                            }else{
+                                                if(pontoRodada == 2){
+                                                    p.adicionaPontos(player2, p.verificaPontos("Retruco"));
+                                                }else{
+                                                    if(pontoRodada == 3){
+                                                        p.adicionaPontos(player2, p.verificaPontos("ValeQuatro"));
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        p.setTurno(3);
+                                    }
+                                }
                             }
                         }
                     }
                 }
+                p.setTurno(p.getTurno() + 1);
+                if(player1.isMao()){
+                    player1.setMao(false);
+                    player2.setMao(true);
+                }else{
+                    player1.setMao(true);
+                    player2.setMao(false);
+                }
+                System.out.println("j: " + p.getTurno());
             }
-            p.setTurno(p.getTurno() + 1);
-            if(player1.isMao()){
-                player1.setMao(false);
-                player2.setMao(true);
-            }else{
-                player1.setMao(true);
-                player2.setMao(false);
-            }
-            j++;
+            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n");
         }
+        System.out.println(player1.getNome() + " pontos: " + player1.getPontos());
+        System.out.println(player2.getNome() + " pontos: " + player2.getPontos());
     }
     
     public static void chamaEnvido(Partida p, Player player1, Player player2){
@@ -367,7 +444,7 @@ public class Main{
                 partidaRodada++;
             }else{
                 if(truco == 2){
-                    chamaRetruco(p, partidaRodada, player1, player2);
+                    chamaRetruco(p, partidaRodada, player2, player1);
                 }else{
                     return 0;
                 }
@@ -382,7 +459,7 @@ public class Main{
                 partidaRodada++;
             }else{
                 if(truco == 2){
-                    chamaValeQuatro(p, partidaRodada, player1, player2);
+                    chamaValeQuatro(p, partidaRodada, player2, player1);
                 }else{
                     return partidaRodada;
                 }
@@ -444,70 +521,120 @@ public class Main{
     public static void darCartas(Player player1, Player player2, Partida p){
         Random rand = new Random();
         int numeroCarta;
+        do{
+            for(int i = 0; i < 3; i++){
+                do{
+                    numeroCarta = rand.nextInt(12) + 1;
+                }while(numeroCarta == 8 || numeroCarta == 9);
+                int numeroNaipe = rand.nextInt(4) + 1;
+                switch(numeroNaipe){
+                    case 1:
+                        Basto basto = new Basto();
+                        basto.setNumero(numeroCarta);
+                        p.atribuiForca(basto, numeroCarta);
+                        player1.listaCarta[i] = basto;
+                        break;
+                    case 2:
+                        Copas copa = new Copas();
+                        copa.setNumero(numeroCarta);
+                        p.atribuiForca(copa, numeroCarta);
+                        player1.listaCarta[i] = copa;
+                        break;
+                    case 3:
+                        Espada espada = new Espada();
+                        espada.setNumero(numeroCarta);
+                        p.atribuiForca(espada, numeroCarta);
+                        player1.listaCarta[i] = espada;
+                        break;
+                    case 4:
+                        Ouro ouro = new Ouro();
+                        ouro.setNumero(numeroCarta);
+                        p.atribuiForca(ouro, numeroCarta);
+                        player1.listaCarta[i] = ouro;
+                        break;
+                }
+            }
+
+            for(int i = 0; i < 3; i++){
+                do{
+                    numeroCarta = rand.nextInt(12) + 1;
+                }while(numeroCarta == 8 || numeroCarta == 9);
+                int numeroNaipe = rand.nextInt(4) + 1;
+                switch(numeroNaipe){
+                    case 1:
+                        Basto basto = new Basto();
+                        basto.setNumero(numeroCarta);
+                        p.atribuiForca(basto, numeroCarta);
+                        player2.listaCarta[i] = basto;
+                        break;
+                    case 2:
+                        Copas copa = new Copas();
+                        copa.setNumero(numeroCarta);
+                        p.atribuiForca(copa, numeroCarta);
+                        player2.listaCarta[i] = copa;
+                        break;
+                    case 3:
+                        Espada espada = new Espada();
+                        espada.setNumero(numeroCarta);
+                        p.atribuiForca(espada, numeroCarta);
+                        player2.listaCarta[i] = espada;
+                        break;
+                    case 4:
+                        Ouro ouro = new Ouro();
+                        ouro.setNumero(numeroCarta);
+                        p.atribuiForca(ouro, numeroCarta);
+                        player2.listaCarta[i] = ouro;
+                        break;
+                }
+            }
+        }while(cartasRepetidas(player1.listaCarta, player2.listaCarta));
+    }
+    
+    public static boolean cartasRepetidas(Cartas[] player1, Cartas[] player2){
         for(int i = 0; i < 3; i++){
-            do{
-                numeroCarta = rand.nextInt(12) + 1;
-            }while(numeroCarta == 8 || numeroCarta == 9);
-            int numeroNaipe = rand.nextInt(4) + 1;
-            switch(numeroNaipe){
-                case 1:
-                    Basto basto = new Basto();
-                    basto.setNumero(numeroCarta);
-                    p.atribuiForca(basto, numeroCarta);
-                    player1.listaCarta[i] = basto;
-                    break;
-                case 2:
-                    Copas copa = new Copas();
-                    copa.setNumero(numeroCarta);
-                    p.atribuiForca(copa, numeroCarta);
-                    player1.listaCarta[i] = copa;
-                    break;
-                case 3:
-                    Espada espada = new Espada();
-                    espada.setNumero(numeroCarta);
-                    p.atribuiForca(espada, numeroCarta);
-                    player1.listaCarta[i] = espada;
-                    break;
-                case 4:
-                    Ouro ouro = new Ouro();
-                    ouro.setNumero(numeroCarta);
-                    p.atribuiForca(ouro, numeroCarta);
-                    player1.listaCarta[i] = ouro;
-                    break;
+            for(int j = 0; j < 3; j++){
+                if(i != j){
+                    if(player1[i].getNumero() == player1[j].getNumero()){
+                        if(player1[i].getNaipe().equals(player1[j].getNaipe())){
+                            return true;
+                        }
+                    }
+                }
             }
         }
         
         for(int i = 0; i < 3; i++){
-            do{
-                numeroCarta = rand.nextInt(12) + 1;
-            }while(numeroCarta == 8 || numeroCarta == 9);
-            int numeroNaipe = rand.nextInt(4) + 1;
-            switch(numeroNaipe){
-                case 1:
-                    Basto basto = new Basto();
-                    basto.setNumero(numeroCarta);
-                    p.atribuiForca(basto, numeroCarta);
-                    player2.listaCarta[i] = basto;
-                    break;
-                case 2:
-                    Copas copa = new Copas();
-                    copa.setNumero(numeroCarta);
-                    p.atribuiForca(copa, numeroCarta);
-                    player2.listaCarta[i] = copa;
-                    break;
-                case 3:
-                    Espada espada = new Espada();
-                    espada.setNumero(numeroCarta);
-                    p.atribuiForca(espada, numeroCarta);
-                    player2.listaCarta[i] = espada;
-                    break;
-                case 4:
-                    Ouro ouro = new Ouro();
-                    ouro.setNumero(numeroCarta);
-                    p.atribuiForca(ouro, numeroCarta);
-                    player2.listaCarta[i] = ouro;
-                    break;
+            for(int j = 0; j < 3; j++){
+                if(i != j){
+                    if(player2[i].getNumero() == player2[j].getNumero()){
+                        if(player1[i].getNaipe().equals(player1[j].getNaipe())){
+                            return true;
+                        }
+                    }
+                }
             }
         }
+        
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                if(player1[i].getNumero() == player2[j].getNumero()){
+                    if(player1[i].getNaipe().equals(player2[j].getNaipe())){
+                        return true;
+                    }
+                }
+            }
+        }
+        
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                if(player2[i].getNumero() == player1[j].getNumero()){
+                    if(player2[i].getNaipe().equals(player1[j].getNaipe())){
+                        return true;
+                    }
+                }
+            }
+        }
+        
+        return false;
     }
 }

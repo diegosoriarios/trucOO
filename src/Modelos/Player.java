@@ -13,6 +13,7 @@ public class Player {
         this.nome = nome;
         this.mao = false;
         this.rodadaGanha = 0;
+        this.pontos = 0;
     }
     
     public int getRodadaGanha(){
