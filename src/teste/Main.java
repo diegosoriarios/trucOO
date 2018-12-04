@@ -280,13 +280,13 @@ public class Main{
                 }
                 //mostra no console quem ganhou
                 System.out.println("----------------------\n");
-                System.out.println(player1.getNome() + " ganhou " + player1.getRodadaGanha() + "\n");
-                System.out.println(player2.getNome() + " ganhou " + player2.getRodadaGanha() + "\n");
+                System.out.println(player1.getNomeNotPontos() + " ganhou " + player1.getRodadaGanha() + "\n");
+                System.out.println(player2.getNomeNotPontos() + " ganhou " + player2.getRodadaGanha() + "\n");
                 System.out.println("----------------------\n");
                 //se player1 ganhou 2 rodadas
                 if(player1.getRodadaGanha() == 2){
                     //mensagem que player1 ganhou
-                    JOptionPane.showMessageDialog(null, player1.getNome() + " ganhou a rodada!!");
+                    JOptionPane.showMessageDialog(null, player1.getNomeNotPontos() + " ganhou a rodada!!");
                     if(pontoRodada == 0){
                         //se não pediram nada ele ganha um ponto
                         p.adicionaPontos(player1, p.verificaPontos("Nao"));
@@ -312,7 +312,7 @@ public class Main{
                     //se o player2 ganhou dois turnos
                     if(player2.getRodadaGanha() == 2){
                         //mensagem que player2 ganhou
-                        JOptionPane.showMessageDialog(null, player2.getNome() + " ganhou a rodada!!");
+                        JOptionPane.showMessageDialog(null, player2.getNomeNotPontos() + " ganhou a rodada!!");
                         //se não pediram nada ganha 1 ponto
                         if(pontoRodada == 0){
                             p.adicionaPontos(player2, p.verificaPontos("Nao"));
