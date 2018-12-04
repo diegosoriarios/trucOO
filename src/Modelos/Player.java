@@ -32,8 +32,12 @@ public class Player {
         this.pontos += pontos;
     }
     
-    public String getNome() {
+    public String getNomeNotPontos(){
         return nome;
+    }
+    
+    public String getNome() {
+        return nome + " | Pontos: " + pontos;
     }
 
     public void setNome(String nome) {
