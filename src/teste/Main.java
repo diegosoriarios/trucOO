@@ -23,7 +23,7 @@ public class Main{
         Player player1 = null;
         Player player2 = null;
         
-        Object[] players = {jogador1.getNome(), jogador2.getNome()};
+        Object[] players = {jogador1.getNomeNotPontos(), jogador2.getNomeNotPontos()}; // Pega o nome sem mostrar os pontos
         do{
             int o = JOptionPane.showOptionDialog(null, "Escolha o mão", "Escolha mão", JOptionPane.WARNING_MESSAGE, 1, null, players, players[0]);
             switch(o) {
