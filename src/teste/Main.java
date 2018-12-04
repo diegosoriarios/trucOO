@@ -209,7 +209,7 @@ public class Main{
                         //se chamaTruco retornar 0, quer dizer que não aceitaram o truco e termina o turno
                         if(pontoRodada == 0){
                             p.setTurno(5);
-                            p.adicionaPontos(player1, p.verificaPontos("Nao"));
+                            p.adicionaPontos(player2, p.verificaPontos("Nao"));
                             continue;
                         }
                     }else{
@@ -220,7 +220,7 @@ public class Main{
                             //se chamaRetruco retornar 1, quer dizer que não aceitaram o retruco e termina o turno
                             if(pontoRodada == 1){
                                 p.setTurno(5);
-                                p.adicionaPontos(player1, p.verificaPontos("Retruco"));
+                                p.adicionaPontos(player2, p.verificaPontos("Retruco"));
                                 continue;
                             }
                         }else{
@@ -231,7 +231,7 @@ public class Main{
                                 //se chamaValeQuatro retornar 2, quer dizer que não aceitaram o valeQuatro e termina o turno
                                 if(pontoRodada == 2){
                                     p.setTurno(5);
-                                    p.adicionaPontos(player1, p.verificaPontos("ValeQuatro"));
+                                    p.adicionaPontos(player2, p.verificaPontos("ValeQuatro"));
                                     continue;
                                 }
                             }else{
