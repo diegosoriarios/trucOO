@@ -40,10 +40,15 @@ public class Main{
             }
         }while(!(jogador1.isMao() || jogador2.isMao()));
 
-        while(!(player1.getPontos() > 12 || player2.getPontos() > 12)){//enquanto nenhum jogador chega a 12 pontos
+        while(player1.getPontos() < 12 || player2.getPontos() < 12){//enquanto nenhum jogador chega a 12 pontos
             Object[] gritos = {"Envido", "Flor", "Truco", "Soltar Carta"};//seta os gritos do jogo
 
             darCartas(player1, player2, p);//da as cartas para os jogadors
+            
+            //calcula os pontos do player1
+            int envP1 = p.calculaEnvido(player1.listaCarta);
+            //calcula os pontos do player2
+            int envP2 = p.calculaEnvido(player2.listaCarta);
 
             //armazena as cartas numa string
             String cartasPlayer1 = player1.listaCarta[0].toString() + player1.listaCarta[1].toString() + player1.listaCarta[2].toString();
@@ -97,7 +102,7 @@ public class Main{
                      //se pedir envido não mostra mais nem envido nem flor entre as opções
                      gritos[0] = "";
                      gritos[1] = "";
-                     checkEnvido = chamaEnvido(p, player1, player2);
+                     checkEnvido = chamaEnvido(p, player1, player2, envP1, envP2);
                      continue;
                     case 1:
                     /*-------------------------FLOR---------------------------*/
@@ -121,6 +126,7 @@ public class Main{
                             //se chamaTruco retornar 0, quer dizer que não aceitara turco e o turno termina
                             if(pontoRodada == 0){
                                 p.setTurno(5);
+                                p.adicionaPontos(player1, p.verificaPontos("Nao"));
                                 continue;
                             }
                         }else{
@@ -131,6 +137,7 @@ public class Main{
                                 //se chamaRetruco retornar 1, quer dizer que não aceitaram o retruco e o turno termina
                                 if(pontoRodada == 1){
                                     p.setTurno(5);
+                                    p.adicionaPontos(player1, p.verificaPontos("Truco"));
                                     continue;
                                 }
                             }else{
@@ -141,6 +148,7 @@ public class Main{
                                     //se chamaValeQuatro retornar 2, quer dizer que não aceitaram o vale quatro e o turno termina
                                     if(pontoRodada == 2){
                                         p.setTurno(5);
+                                        p.adicionaPontos(player1, p.verificaPontos("ValeQuatro"));
                                         continue;
                                     }
                                 }else{
@@ -201,6 +209,7 @@ public class Main{
                         //se chamaTruco retornar 0, quer dizer que não aceitaram o truco e termina o turno
                         if(pontoRodada == 0){
                             p.setTurno(5);
+                            p.adicionaPontos(player1, p.verificaPontos("Nao"));
                             continue;
                         }
                     }else{
@@ -211,6 +220,7 @@ public class Main{
                             //se chamaRetruco retornar 1, quer dizer que não aceitaram o retruco e termina o turno
                             if(pontoRodada == 1){
                                 p.setTurno(5);
+                                p.adicionaPontos(player1, p.verificaPontos("Retruco"));
                                 continue;
                             }
                         }else{
@@ -221,6 +231,7 @@ public class Main{
                                 //se chamaValeQuatro retornar 2, quer dizer que não aceitaram o valeQuatro e termina o turno
                                 if(pontoRodada == 2){
                                     p.setTurno(5);
+                                    p.adicionaPontos(player1, p.verificaPontos("ValeQuatro"));
                                     continue;
                                 }
                             }else{
@@ -237,7 +248,7 @@ public class Main{
                             JOptionPane.showMessageDialog(null, "Escolha uma opção valida!!");
                             //p.setTurno(p.getTurno() - 1);
                         }else{
-                            checkEnvido = chamaEnvido(p, player2, player1);
+                            checkEnvido = chamaEnvido(p, player1, player2, envP1, envP2);
                         }
                     }else{
                         if(t2 == 3){
@@ -452,11 +463,11 @@ public class Main{
             System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n");
         }
         //quando o jogo termina mostra os pontos de cada jogador
-        System.out.println(player1.getNome() + " pontos: " + player1.getPontos());
-        System.out.println(player2.getNome() + " pontos: " + player2.getPontos());
+        JOptionPane.showMessageDialog(null, player1.toString());
+        JOptionPane.showMessageDialog(null, player2.toString());
     }
     
-    public static boolean chamaEnvido(Partida p, Player player1, Player player2){
+    public static boolean chamaEnvido(Partida p, Player player1, Player player2, int envP1, int envP2){
         Object[] confirmacao = {"Sim", "Não"};
         String cartasPlayer1 = player1.listaCarta[0].toString() + player1.listaCarta[1].toString() + player1.listaCarta[2].toString();
         //mostra só as cartas que o player2 ainda não jogou
@@ -467,10 +478,6 @@ public class Main{
         int envido = JOptionPane.showOptionDialog(null, cartasPlayer2, player2.getNome() + " aceita o envido?", JOptionPane.YES_NO_OPTION, 0, null, envidoOpt, envidoOpt[0]);
             //se aceitar o envido
            if(envido == 1){
-               //calcula os pontos do player1
-               int envP1 = p.calculaEnvido(player1.listaCarta);
-               //calcula os pontos do player2
-               int envP2 = p.calculaEnvido(player2.listaCarta);
                //mostra os pontos do player1 e do player2
                System.out.println("Quero");
                System.out.println(envP1);
@@ -490,9 +497,6 @@ public class Main{
                    int resposta_envido = JOptionPane.showOptionDialog(null, cartasPlayer1, player1.getNome() + " aceita o real envido?", JOptionPane.YES_NO_OPTION, 0, null, confirmacao, confirmacao[0]);
                    //se aceitou o real envido
                    if(resposta_envido == 1){
-                       //calcula os pontos de player1 e player2
-                       int envP1 = p.calculaEnvido(player1.listaCarta);
-                       int envP2 = p.calculaEnvido(player2.listaCarta);
                        //calcula quem ganha
                        int g = p.venceChamada(player1.isMao(), envP1, envP2);
                        //se player1 ganha atribui os pontos do real envido
@@ -509,12 +513,9 @@ public class Main{
                }else{
                    //se pedir falta envido
                    if(envido == 3){
-                       int resposta_envido = JOptionPane.showOptionDialog(null, cartasPlayer1, player2.getNome() + " aceita a Falta Envido?", JOptionPane.YES_NO_OPTION, 0, null, confirmacao, confirmacao[0]);
+                       int resposta_envido = JOptionPane.showOptionDialog(null, cartasPlayer1, player1.getNome() + " aceita a Falta Envido?", JOptionPane.YES_NO_OPTION, 0, null, confirmacao, confirmacao[0]);
                        //se aceitar o falta envido
-                       if(resposta_envido == 1){
-                           //calcula os pontos do player1 e do player2
-                           int envP1 = p.calculaEnvido(player1.listaCarta);
-                           int envP2 = p.calculaEnvido(player2.listaCarta);
+                       if(resposta_envido == 0){
                            //calcula quem ganhou
                            int g = p.venceChamada(player1.isMao(), envP1, envP2);
                            //se player1 ganhou atribui os pontos do falta envido
@@ -677,7 +678,7 @@ public class Main{
         String[] jogarCarta = {player.listaCarta[0] != null ? player.listaCarta[0].toString() : "", 
                                player.listaCarta[1] != null ? player.listaCarta[1].toString() : "", 
                                player.listaCarta[2] != null ? player.listaCarta[2].toString() : ""};
-        int escolheCarta = JOptionPane.showOptionDialog(null, "Qual carta jogar?", player.getNome(), JOptionPane.YES_NO_OPTION, 0, null, jogarCarta, jogarCarta[0]);;
+        int escolheCarta = JOptionPane.showOptionDialog(null, "Qual carta jogar?", player.getNome(), JOptionPane.YES_NO_OPTION, 0, null, jogarCarta, jogarCarta[0]);
         switch(escolheCarta){
             case 0:
                 //se escolhe a primeira carta e ela não foi jogada ainda

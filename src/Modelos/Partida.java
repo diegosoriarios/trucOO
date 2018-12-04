@@ -155,6 +155,7 @@ public class Partida {
                 pontos = 12;
                 break;
          }
+        System.out.println(chamada);
         return pontos;
     }
     
