@@ -56,9 +56,7 @@ public class Player {
     public String toString() {
         String aux = "";
         aux += "Nome: " + nome;
-        aux += mao ? ", É mão" : "Não é mão";
-        aux += ", Cartas: " + Arrays.toString(listaCarta);
-        aux += ", Pontos: " + getPontos();
+        aux += "\nPontos: " + getPontos();
         return aux;
     }
     

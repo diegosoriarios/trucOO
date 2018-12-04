@@ -40,7 +40,7 @@ public class Main{
             }
         }while(!(jogador1.isMao() || jogador2.isMao()));
 
-        while(player1.getPontos() < 12 || player2.getPontos() < 12){//enquanto nenhum jogador chega a 12 pontos
+        while(player1.getPontos() < 12 && player2.getPontos() < 12){//enquanto nenhum jogador chega a 12 pontos
             Object[] gritos = {"Envido", "Flor", "Truco", "Soltar Carta"};//seta os gritos do jogo
 
             darCartas(player1, player2, p);//da as cartas para os jogadors
@@ -462,9 +462,14 @@ public class Main{
             //da um espaço entre cada turno
             System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n");
         }
-        //quando o jogo termina mostra os pontos de cada jogador
-        JOptionPane.showMessageDialog(null, player1.toString());
-        JOptionPane.showMessageDialog(null, player2.toString());
+        //quando o jogo termina mostra os pontos de cada jogador conforme quem ganhou
+        if (player1.getPontos() > player2.getPontos()){
+            JOptionPane.showMessageDialog(null, "\nVENCEDOR\n\n" + player1.toString());
+            JOptionPane.showMessageDialog(null, "\nPERDEDOR\n\n" + player2.toString());
+        }else{
+            JOptionPane.showMessageDialog(null, "\nVENCEDOR\n\n" + player2.toString());
+            JOptionPane.showMessageDialog(null, "\nPERDEDOR\n\n" + player1.toString());
+        }
     }
     
     public static boolean chamaEnvido(Partida p, Player player1, Player player2, int envP1, int envP2){
