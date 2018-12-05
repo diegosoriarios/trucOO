@@ -84,36 +84,7 @@ public class Partida {
     }
     
     public boolean isFlor(Cartas[] c){ // retorna true se tiver Flor
-        //se todas as cartas forem Basto
-        if(c[0] instanceof Basto && c[1] instanceof Basto){
-            if(c[2] instanceof Basto){
-                //retorna verdadeiro
-                return true;
-            }
-        }else{
-            //se todas as cartas forem Copas
-            if(c[0] instanceof Copas && c[1] instanceof Copas){
-                if(c[2] instanceof Copas){
-                    return true;
-                }
-            }else{
-                //se todas as cartas forem Espada
-                if(c[0] instanceof Espada && c[1] instanceof Espada){
-                    if(c[2] instanceof Espada){
-                        return true;
-                    }
-                }else{
-                    //se todas as cartas forem Ouro
-                    if(c[0] instanceof Ouro && c[1] instanceof Ouro){
-                        if(c[2] instanceof Ouro){
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-        //as 3 cartas não são iguais
-        return false;
+        return (c[0].getNaipe().equals(c[1].getNaipe()) && c[1].getNaipe().equals(c[2].getNaipe())); // verifica os naipes iguais
     }
     
     public boolean isEnvido(Cartas c1, Cartas c2){ // retorna true se tiver Envido
