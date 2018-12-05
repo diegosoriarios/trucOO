@@ -552,7 +552,7 @@ public class Main{
                                   player2.listaCarta[1] != null ? player2.listaCarta[1].toString() : "", 
                                   player2.listaCarta[2] != null ? player2.listaCarta[2].toString() : ""};
         String[] florOpt = {"É bom...", "Contra Flor", "Flor ao Resto"};
-        int flor = JOptionPane.showOptionDialog(null, "FLOR", player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, florOpt, florOpt[0]);
+        int flor = JOptionPane.showOptionDialog(null, cartasPlayer2, player2.getNome(), JOptionPane.YES_NO_OPTION, 0, null, florOpt, florOpt[0]);
             //se não tem flor
             if(flor == 0){
                 //atribui os pontos de flor para o player2
@@ -631,7 +631,7 @@ public class Main{
                     //incrementa o partidaRodada para saber que passou pelo truco
                     partidaRodada++;
                     //chama a função do retruco
-                    chamaRetruco(p, partidaRodada, player2, player1);
+                    partidaRodada = chamaRetruco(p, partidaRodada, player2, player1);
                 }else{
                     //se não aceita retorna 0
                     return 0;
@@ -653,7 +653,7 @@ public class Main{
                     //incrementa partidaRodada para saber que passou pelo retruco
                     partidaRodada++;
                     //chama a função do vale quatro
-                    chamaValeQuatro(p, partidaRodada, player2, player1);
+                    partidaRodada = chamaValeQuatro(p, partidaRodada, player2, player1);
                 }else{
                     //retorna partidaRodada significando não
                     return partidaRodada;
