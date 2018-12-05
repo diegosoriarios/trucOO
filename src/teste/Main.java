@@ -450,12 +450,29 @@ public class Main{
                 //pra não aparecer a opção de envido mais
                 checkEnvido = true;
                 //altera quem é o player1 e o player2
-                if(player1.isMao()){
-                    player1.setMao(false);
-                    player2.setMao(true);
-                }else{
+                Player aux = null;
+                if(resultado == 1){ 
                     player1.setMao(true);
                     player2.setMao(false);
+                }else{
+                    if(resultado == 2){
+                        aux = player1;
+                        player1 = player2;
+                        player2 = aux;
+                        jogador1.setMao(false);
+                        jogador2.setMao(true);
+                    }else{
+                        if(player1.isMao()){
+                            player1.setMao(false);
+                            player2.setMao(true);
+                        }else{
+                            aux = player1;
+                            player1 = player2;
+                            player2= aux;
+                            player1.setMao(true);
+                            player2.setMao(false);
+                        }
+                    }
                 }
                 System.out.println("j: " + p.getTurno());
             }
