@@ -491,7 +491,9 @@ public class Main{
     
     public static boolean chamaEnvido(Partida p, Player player1, Player player2, int envP1, int envP2){
         Object[] confirmacao = {"Sim", "Não"};
-        String cartasPlayer1 = player1.listaCarta[0].toString() + player1.listaCarta[1].toString() + player1.listaCarta[2].toString();
+        Object[] cartasPlayer1 = {player1.listaCarta[0] != null ? player1.listaCarta[0].toString() : "", 
+                                  player1.listaCarta[1] != null ? player1.listaCarta[1].toString() : "", 
+                                  player1.listaCarta[2] != null ? player1.listaCarta[2].toString() : ""};
         //mostra só as cartas que o player2 ainda não jogou
         Object[] cartasPlayer2 = {player2.listaCarta[0] != null ? player2.listaCarta[0].toString() : "", 
                                   player2.listaCarta[1] != null ? player2.listaCarta[1].toString() : "", 
